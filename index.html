@@ -14,8 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/css/style.css">
     <!--Sweet alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -23,131 +22,38 @@
 
 <body>
 <header>
-    <img src="" class="logo" alt="Logo de ALURA"/>
+    <img src="assets/img/logo.png" class="logo" alt="Logo de ALURA"/>
 </header>
- <main>
+ <main class="container">
     <section>
-        <textarea class="text-area" cols="30" rows="10" placeholder="Ingrese su texto"></textarea>
+	<form id="formularioPrincipal" action="">
+        <textarea class="text-area"  id="texto" cols="30" rows="10" placeholder="Ingrese su texto"></textarea>
         <div>
             <h6 class="informacion">Solo letras minusculas y sin tilde</h6>
         </div>
         <div class="botones">
-            <button class="btn-encriptar">Encriptar</button>
-            <button class="btn-desencriptar">Desencriptar</button>
+            <button class="btn-encriptar" id="btnEncriptar" onclick="encrypt()">Encriptar</button>
+            <button class="btn-desencriptar" id="btnDesencriptar" onclick="decrypt()">Desencriptar</button>
         </div>
+		  </form>
     </section>
 
     <section>
-        <textarea class="mensaje" cols="20" rows="10"></textarea>
+        <textarea class="mensaje"  id="pEncrytpt" cols="20" rows="10"></textarea>
         <div>
-            <button type="submit" id="btnCopiar">Copiar texto</button>
+            <button type="button" class="btn-copiar" id="btnCopiar">Copiar texto</button>
         </div>      
     </section>
  </main>
 
-    <form id="formularioPrincipal" action="">
-        <input type="text" id="texto" value="">
-        <button type="submit" id="btnEncriptar" onclick="encrypt()"></button>
-        <button type="submit" id="btnDesencriptar" onclick="decrypt()"></button>
-        
-    </form>
-    <p id="pText"></p>
-    <p id="pEncrytpt"></p>
+       
+  
 
-    <script>
-        $(document).ready(function () {
-            console.log("Entra load page");
-            // Deshabilitar el botón inicialmente si el campo está vacío
-            if ($("#texto").val() === "") {
-                $("#btnEncriptar").prop("disabled", true);
-                $("#btnDesencriptar").prop("disabled", true);
-                $("#btnCopiar").prop("disabled", true);
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            }
-
-            // Manejar cambios en el campo de entrada
-            $("#texto").on("input", function () {
-                if ($(this).val() === "") {
-                    $("#btnEncriptar").prop("disabled", true); // Deshabilitar si está vacío
-                    $("#btnDesencriptar").prop("disabled", true);
-                    $("#btnCopiar").prop("disabled", true);
-                } else {
-                    $("#btnEncriptar").prop("disabled", false); // Habilitar si tiene valor
-                    $("#btnDesencriptar").prop("disabled", false);
-                    $("#btnCopiar").prop("disabled", false);
-
-                }
-            });
-            //Prevenir el submit por defecto del form
-            $("#formularioPrincipal").submit(function (event) {
-                if ($("#texto").val() == "") {
-                    Swal.fire({
-                        text: 'Debe escribir un texto',
-                        icon: 'error'
-                    });
-                }
-                event.preventDefault();
-            });
-
-            //Permitir solo minusculas
-            $("#texto").keypress(function (event) {
-                let caracter = String.fromCharCode(event.which);
-                if (!caracter.match(/^[a-z\s]+$/)) { // Permitir solo minúsculas y espacios
-                    event.preventDefault();
-                }
-            });
-            //Copiar texto la portapapeles
-            $("#btnCopiar").click(function () {
-                var texto = $("#texto").val();
-                navigator.clipboard.writeText(texto)
-                    .then(() => {
-                        Swal.fire({
-                            text: 'Texto copiado al portapapeles',
-                            icon: 'success'
-                        });
-                    })
-                    .catch(err => {
-                        console.error("Error al copiar al portapapeles: ", err);
-                        Swal.fire({
-                            text: 'No se pudo copiar el texto',
-                            icon: 'error'
-                        });
-                    });
-
-            });
-        });
-        //Encriptar el texto
-        function encrypt() {
-            clean();
-            const texto = $("#texto").val();
-            let encryptText = texto
-                .replace(/e/g, "enter")
-                .replace(/i/g, "imes")
-                .replace(/a/g, "ai")
-                .replace(/o/g, "ober")
-                .replace(/u/g, "ufat");
-            console.log(encryptText);
-            $("#pText").text(encryptText);
-        }
-        //"desencriptar" el texto
-        function decrypt() {
-            clean();
-            const encryptText = $("#texto").val();
-            let texto = encryptText
-                .replace(/enter/g, "e")
-                .replace(/imes/g, "i")
-                .replace(/ai/g, "a")
-                .replace(/ober/g, "o")
-                .replace(/ufat/g, "u");
-            console.log(texto);
-            $("#pEncrytpt").text(texto);
-        }
-        //limpiar campos
-        function clean() {
-            $("#pEncrytpt").text("");
-            $("#pText").text("");
-        }
-    </script>
+<script src="assets/js/main.js">
+    
+</script>
 </body>
 
 </html>
